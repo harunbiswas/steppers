@@ -4,56 +4,71 @@ import { FaCheck } from 'react-icons/fa6'
 
 const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad']
 
-export default function Basic() {
+export default function NonLinear() {
   const [activeStep, setActiveStep] = useState(0)
-  const [skipped, setSkipped] = useState(new Set())
+  const [completeStep, setcompleteStep] = useState([])
+  const [completed, setCompleted] = useState({})
+
   const [error, setError] = useState(null)
 
   const isStepOptional = step => {
-    return step === 1
+    return step === null
   }
 
-  const isStepSkipped = step => {
-    return skipped.has(step)
+  const totalSteps = () => {
+    return steps.length
   }
 
   const handleNext = () => {
-    let newSkipped = skipped
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values())
-      newSkipped.delete(activeStep)
-    }
-
-    setActiveStep(prevActiveStep => prevActiveStep + 1)
-    setSkipped(newSkipped)
+    const newActiveStep =
+      isLastStep() && !allStepsCompleted()
+        ? // It's the last step, but not all steps have been completed,
+          // find the first step that has been completed
+          steps.findIndex((step, i) => !(i in completed))
+        : activeStep + 1
+    setActiveStep(newActiveStep)
   }
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
+  const isLastStep = () => {
+    return activeStep === totalSteps() - 1
+  }
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.")
-    }
+  const allStepsCompleted = () => {
+    return completedSteps() === totalSteps()
+  }
 
-    setActiveStep(prevActiveStep => prevActiveStep + 1)
-    setSkipped(prevSkipped => {
-      const newSkipped = new Set(prevSkipped.values())
-      newSkipped.add(activeStep)
-      return newSkipped
-    })
+  const completedSteps = () => {
+    return Object.keys(completed).length
   }
 
   const handleReset = () => {
     setActiveStep(0)
+    setCompleted({})
+  }
+
+  const handleComplete = () => {
+    const newCompleted = { ...completed }
+    newCompleted[activeStep] = true
+    setCompleted(newCompleted)
+    handleNext()
+  }
+
+  const handleStep = step => () => {
+    setActiveStep(step)
   }
 
   return (
     <div className='w-full text-white'>
       <ul className='flex justify-between items-center mb-4 gap-2'>
         {steps.map((label, index) => {
-          const stepClass = activeStep >= index ? 'bg-[#90CAF9]' : 'bg-gray-300'
+          const stepClass =
+            activeStep === index ||
+            Object.keys(completed).includes(index.toString())
+              ? 'bg-[#90CAF9]'
+              : 'bg-gray-300'
           return (
             <>
               <li
@@ -68,7 +83,10 @@ export default function Basic() {
                   <span
                     className={`w-5 h-5 rounded-full flex items-center justify-center ${stepClass} text-xs text-black `}
                   >
-                    {(activeStep > index && <FaCheck />) || index + 1}
+                    {(Object.keys(completed).includes(index.toString()) && (
+                      <FaCheck />
+                    )) ||
+                      index + 1}
                   </span>
                 )}
                 <div className='ml-2 md:w-[max-content]'>
@@ -98,7 +116,7 @@ export default function Basic() {
           )
         })}
       </ul>
-      {activeStep === steps.length ? (
+      {allStepsCompleted() ? (
         <div className=''>
           <p className='mt-2 mb-1 text-base'>
             All steps completed - you're finished
@@ -124,20 +142,28 @@ export default function Basic() {
               Back
             </button>
             <div className='flex'>
-              {isStepOptional(activeStep) && (
-                <button
-                  onClick={handleSkip}
-                  className='px-4 py-2  text-white rounded mr-2 hover:bg-[#ffffff14] uppercase text-sm font-medium'
-                >
-                  Skip
-                </button>
-              )}
               <button
                 onClick={handleNext}
-                className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium'
+                className='px-4 py-2  text-white rounded mr-2 hover:bg-[#ffffff14] uppercase text-sm font-medium'
               >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                Next
               </button>
+
+              {activeStep !== steps.length &&
+                (completed[activeStep] ? (
+                  <span className='text-gray-500'>
+                    Step {activeStep + 1} already completed
+                  </span>
+                ) : (
+                  <button
+                    onClick={handleComplete}
+                    className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium'
+                  >
+                    {completedSteps() === totalSteps() - 1
+                      ? 'Finish'
+                      : 'Complete Step'}
+                  </button>
+                ))}
             </div>
           </div>
         </div>
