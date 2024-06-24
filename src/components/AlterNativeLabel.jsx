@@ -59,7 +59,7 @@ export default function AlternativeLabel() {
             <>
               <li
                 key={label}
-                className='flex items-center w-full lg:w-[max-content] relative'
+                className='h-10  flex items-center w-full lg:w-[max-content] relative'
               >
                 {(error === index && (
                   <span className='text-2xl text-[#f44336]'>
