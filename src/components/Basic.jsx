@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BiSolidError } from 'react-icons/bi'
 import { FaCheck } from 'react-icons/fa6'
 
 const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad']
@@ -6,6 +7,7 @@ const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad']
 export default function Basic() {
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set())
+  const [error, setError] = useState(null)
 
   const isStepOptional = step => {
     return step === 1
@@ -58,16 +60,35 @@ export default function Basic() {
                 key={label}
                 className='flex items-center w-full lg:w-[max-content]'
               >
-                <span
-                  className={`w-5 h-5 rounded-full flex items-center justify-center ${stepClass} text-xs text-black`}
-                >
-                  {(activeStep > index && <FaCheck />) || index + 1}
-                </span>
+                {(error === index && (
+                  <span className='text-2xl text-[#f44336]'>
+                    <BiSolidError />
+                  </span>
+                )) || (
+                  <span
+                    className={`w-5 h-5 rounded-full flex items-center justify-center ${stepClass} text-xs text-black `}
+                  >
+                    {(activeStep > index && <FaCheck />) || index + 1}
+                  </span>
+                )}
                 <div className='ml-2 md:w-[max-content]'>
-                  <p className='text-sm'>{label}</p>
-                  {isStepOptional(index) && (
-                    <span className='text-sm text-gray-500'>Optional</span>
-                  )}
+                  <p
+                    className={`text-sm ${
+                      (error === index && 'text-[#f44336]') || ''
+                    }`}
+                  >
+                    {label}
+                  </p>
+                  {(error === index && (
+                    <span className='text-sm text-[#f44336]'>
+                      Alert message
+                    </span>
+                  )) ||
+                    (isStepOptional(index) && (
+                      <span className='text-sm text-gray-500'>
+                        {'Optional'}
+                      </span>
+                    ))}
                 </div>
               </li>
               {index + 1 < steps.length && (
