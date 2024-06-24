@@ -4,73 +4,62 @@ import { FaCheck } from 'react-icons/fa6'
 
 const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad']
 
-export default function NonLinear() {
+export default function AlternativeLabel() {
   const [activeStep, setActiveStep] = useState(0)
-
-  const [completed, setCompleted] = useState({})
-
+  const [skipped, setSkipped] = useState(new Set())
   const [error, setError] = useState(null)
 
   const isStepOptional = step => {
     return step === null
   }
 
-  const totalSteps = () => {
-    return steps.length
+  const isStepSkipped = step => {
+    return skipped.has(step)
   }
 
   const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1
-    setActiveStep(newActiveStep)
     setError(null)
+    let newSkipped = skipped
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values())
+      newSkipped.delete(activeStep)
+    }
+
+    setActiveStep(prevActiveStep => prevActiveStep + 1)
+    setSkipped(newSkipped)
   }
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1
-  }
 
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps()
-  }
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      throw new Error("You can't skip a step that isn't optional.")
+    }
 
-  const completedSteps = () => {
-    return Object.keys(completed).length
+    setActiveStep(prevActiveStep => prevActiveStep + 1)
+    setSkipped(prevSkipped => {
+      const newSkipped = new Set(prevSkipped.values())
+      newSkipped.add(activeStep)
+      return newSkipped
+    })
   }
 
   const handleReset = () => {
     setActiveStep(0)
-    setCompleted({})
-  }
-
-  const handleComplete = () => {
-    const newCompleted = { ...completed }
-    newCompleted[activeStep] = true
-    setCompleted(newCompleted)
-    handleNext()
   }
 
   return (
     <div className='w-full text-white'>
-      <ul className='flex justify-between items-center mb-4 gap-2'>
+      <ul className='flex justify-between items-center mb-4 gap-2 lg:mx-20'>
         {steps.map((label, index) => {
-          const stepClass =
-            activeStep === index ||
-            Object.keys(completed).includes(index.toString())
-              ? 'bg-[#90CAF9]'
-              : 'bg-gray-300'
+          const stepClass = activeStep >= index ? 'bg-[#90CAF9]' : 'bg-gray-300'
           return (
             <>
               <li
                 key={label}
-                className='flex items-center w-full lg:w-[max-content]'
+                className='flex items-center w-full lg:w-[max-content] relative'
               >
                 {(error === index && (
                   <span className='text-2xl text-[#f44336]'>
@@ -78,15 +67,12 @@ export default function NonLinear() {
                   </span>
                 )) || (
                   <span
-                    className={`w-5 h-5 rounded-full flex items-center justify-center ${stepClass} text-xs text-black `}
+                    className={`w-7 h-7 rounded-full flex items-center justify-center ${stepClass} text-black `}
                   >
-                    {(Object.keys(completed).includes(index.toString()) && (
-                      <FaCheck />
-                    )) ||
-                      index + 1}
+                    {(activeStep > index && <FaCheck />) || index + 1}
                   </span>
                 )}
-                <div className='ml-2 md:w-[max-content]'>
+                <div className='ml-2 md:w-[max-content] lg:absolute bottom-[-30px] left-1/2 lg:translate-x-[-50%] '>
                   <p
                     className={`text-sm ${
                       (error === index && 'text-[#f44336]') || ''
@@ -113,8 +99,8 @@ export default function NonLinear() {
           )
         })}
       </ul>
-      {allStepsCompleted() ? (
-        <div className=''>
+      {activeStep === steps.length ? (
+        <div className='mt-14'>
           <p className='mt-2 mb-1 text-base'>
             All steps completed - you are finished
           </p>
@@ -128,7 +114,7 @@ export default function NonLinear() {
           </div>
         </div>
       ) : (
-        <div>
+        <div className='mt-14'>
           <p className='mt-2 mb-1 text-base'>Step {activeStep + 1}</p>
           <div className='flex justify-between pt-2'>
             <button
@@ -139,28 +125,20 @@ export default function NonLinear() {
               Back
             </button>
             <div className='flex'>
+              {isStepOptional(activeStep) && (
+                <button
+                  onClick={handleSkip}
+                  className='px-4 py-2  text-white rounded mr-2 hover:bg-[#ffffff14] uppercase text-sm font-medium'
+                >
+                  Skip
+                </button>
+              )}
               <button
                 onClick={handleNext}
-                className='px-4 py-2  text-white rounded mr-2 hover:bg-[#ffffff14] uppercase text-sm font-medium'
+                className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium'
               >
-                Next
+                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </button>
-
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <span className='text-gray-500'>
-                    Step {activeStep + 1} already completed
-                  </span>
-                ) : (
-                  <button
-                    onClick={handleComplete}
-                    className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium'
-                  >
-                    {completedSteps() === totalSteps() - 1
-                      ? 'Finish'
-                      : 'Complete Step'}
-                  </button>
-                ))}
             </div>
           </div>
         </div>

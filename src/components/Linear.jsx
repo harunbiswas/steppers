@@ -18,6 +18,7 @@ export default function Linear() {
   }
 
   const handleNext = () => {
+    setError(null)
     let newSkipped = skipped
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values())
@@ -101,7 +102,7 @@ export default function Linear() {
       {activeStep === steps.length ? (
         <div className=''>
           <p className='mt-2 mb-1 text-base'>
-            All steps completed - you're finished
+            All steps completed - you are finished
           </p>
           <div className='flex justify-end pt-2'>
             <button
