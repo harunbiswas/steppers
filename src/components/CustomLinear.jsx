@@ -128,7 +128,7 @@ export default function CustomLinear() {
                     />
                   </div>
                 )}
-                <div className='ml-2 md:w-[max-content] lg:absolute bottom-[-30px] left-1/2 lg:translate-x-[-50%] '>
+                <div className='ml-2 md:w-[max-content] md:absolute bottom-[-30px] left-1/2 md:translate-x-[-50%] hidden md:block '>
                   <p
                     className={`text-sm ${
                       (error === index && 'text-[#f44336]') || ''
@@ -148,9 +148,6 @@ export default function CustomLinear() {
                     ))}
                 </div>
               </li>
-              {/* {index + 1 < steps.length && (
-                <div className='line sm:w-full h-px bg-[#757575]'></div>
-              )} */}
             </>
           )
         })}
