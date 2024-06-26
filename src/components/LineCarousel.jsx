@@ -44,8 +44,6 @@ function LineSwipeableTextMobileStepper() {
     setActiveStep(step)
   }
 
-  console.log(activeStep)
-
   return (
     <div className='max-w-md flex flex-col grow m-auto'>
       <div className='flex items-center h-12 pl-2 bg-black'>
