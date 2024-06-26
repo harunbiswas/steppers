@@ -35,7 +35,7 @@ function App() {
             <VerticalLinearStepper />
           </div>
           <div className='box border p-5 rounded mt-5 w-full flex flex-col gap-4 bg-[#1d21265d] '>
-            <h1 className='text-white text-4xl'>Vertical stepper</h1>
+            <h1 className='text-white text-4xl'>Mobile stepper</h1>
             <MobileStepper />
           </div>
           <div className='box border p-5 rounded mt-5 w-full flex flex-col gap-4 bg-[#1d21265d] '>

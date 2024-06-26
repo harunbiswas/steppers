@@ -41,3 +41,12 @@ export default function ColorlibStepIcon({
     </>
   )
 }
+
+ColorlibStepIcon.propTypes = {
+  active: Number,
+  completed: Object,
+  icon: Number,
+  index: Number,
+  activeStep: Number,
+  steps: Array,
+}

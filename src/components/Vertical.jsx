@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaCheck } from 'react-icons/fa6'
+import Reset from './linear/Reset'
 
 const steps = [
   {
@@ -61,8 +62,10 @@ export default function VerticalLinearStepper() {
 
             <div className='overflow-hidden'>
               <div
-                className={`ml-12 mt-2   origin-top duration-1000 ${
-                  activeStep === index ? '' : 'mt-[-50%] '
+                className={`ml-12 mt-2   origin-top  ${
+                  activeStep === index
+                    ? 'duration-0'
+                    : 'mt-[-50%] duration-1000 '
                 }`}
               >
                 <p className='text-white'>{step.description}</p>
@@ -86,17 +89,7 @@ export default function VerticalLinearStepper() {
           </div>
         ))}
       </div>
-      {activeStep === steps.length && (
-        <div className='p-4 bg-[#121212] mt-4 flex gap-2 flex-col justify-center items-start rounded-sm'>
-          <p className='text-white'>All steps completed - you are finished</p>
-          <button
-            onClick={handleReset}
-            className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium'
-          >
-            Reset
-          </button>
-        </div>
-      )}
+      {activeStep === steps.length && <Reset handleReset={handleReset} />}
     </div>
   )
 }
