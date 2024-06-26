@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { FaCheck } from 'react-icons/fa6'
-import Reset from './linear/Reset'
 
 const steps = [
   {
@@ -42,11 +41,11 @@ export default function VerticalLinearStepper() {
     <div className='max-w-md mx-auto'>
       <div className='flex flex-col'>
         {steps.map((step, index) => (
-          <div key={step.label} className=' pb-8 relative transition-all'>
+          <div key={step.label} className=' pb-8 relative transition-all '>
             {index < steps.length - 1 && (
               <div className='absolute w-px h-custom-calc bg-white left-3 top-9'></div>
             )}
-            <div className='flex items-start'>
+            <div className='flex items-start '>
               <div className='w-6 h-6 flex items-center justify-center rounded-full bg-[#90caf9] text-black mt-1'>
                 {(index < activeStep && <FaCheck />) || index + 1}
               </div>
@@ -62,34 +61,47 @@ export default function VerticalLinearStepper() {
 
             <div className='overflow-hidden'>
               <div
-                className={`ml-12 mt-2   origin-top  ${
+                className={`ml-12 mt-2  ${
                   activeStep === index
-                    ? 'duration-0'
-                    : 'mt-[-50%] duration-1000 '
+                    ? 'accordion-content-auto'
+                    : ' accordion-content'
                 }`}
               >
-                <p className='text-white'>{step.description}</p>
-                <div className='mt-4'>
-                  <button
-                    onClick={handleNext}
-                    className='px-4 py-2 bg-blue-500 text-white rounded mr-2'
-                  >
-                    {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                  </button>
-                  <button
-                    onClick={handleBack}
-                    disabled={index === 0}
-                    className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium disabled:text-[#ffffff4d] disabled:hover:bg-transparent'
-                  >
-                    Back
-                  </button>
-                </div>
+                <>
+                  {' '}
+                  <p className='text-white'>{step.description}</p>
+                  <div className='mt-4'>
+                    <button
+                      onClick={handleNext}
+                      className='px-4 py-2 bg-blue-500 text-white rounded mr-2'
+                    >
+                      {index === steps.length - 1 ? 'Finish' : 'Continue'}
+                    </button>
+                    <button
+                      onClick={handleBack}
+                      disabled={index === 0}
+                      className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium disabled:text-[#ffffff4d] disabled:hover:bg-transparent'
+                    >
+                      Back
+                    </button>
+                  </div>
+                </>
               </div>
             </div>
           </div>
         ))}
       </div>
-      {activeStep === steps.length && <Reset handleReset={handleReset} />}
+      {activeStep === steps.length && (
+        <div className='p-4 bg-[#121212] mt-4 flex gap-2 flex-col justify-center items-start rounded-sm'>
+          <p className='text-white'>All steps completed - you are finished</p>
+          <button
+            onClick={handleReset}
+            className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium'
+          >
+            Reset
+          </button>
+        </div>
+      )}
     </div>
   )
 }

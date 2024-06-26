@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.accordion-content {
+  -webkit-transition: max-height 0.3s;
+  -moz-transition: max-height 0.3s;
+  -ms-transition: max-height 0.3s;
+  -o-transition: max-height 0.3s;
+  transition: max-height 0.3s;
+  max-height: 0;
+}
+
+.accordion-content-auto {
+  -webkit-transition: max-height 0.1s;
+  -moz-transition: max-height 0.1s;
+  -ms-transition: max-height 0.1s;
+  -o-transition: max-height 0.1s;
+  transition: max-height 0.3s;
+  max-height: 500px;
+}
