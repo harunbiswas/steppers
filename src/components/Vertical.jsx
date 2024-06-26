@@ -41,7 +41,7 @@ export default function VerticalLinearStepper() {
     <div className='max-w-md mx-auto'>
       <div className='flex flex-col'>
         {steps.map((step, index) => (
-          <div key={step.label} className=' pb-8 relative'>
+          <div key={step.label} className=' pb-8 relative transition-all'>
             {index < steps.length - 1 && (
               <div className='absolute w-px h-custom-calc bg-white left-3 top-9'></div>
             )}
@@ -58,8 +58,13 @@ export default function VerticalLinearStepper() {
                 )}
               </div>
             </div>
-            {activeStep === index && (
-              <div className='ml-12 mt-2'>
+
+            <div className='overflow-hidden'>
+              <div
+                className={`ml-12 mt-2   origin-top duration-1000 ${
+                  activeStep === index ? '' : 'mt-[-50%] '
+                }`}
+              >
                 <p className='text-white'>{step.description}</p>
                 <div className='mt-4'>
                   <button
@@ -77,12 +82,12 @@ export default function VerticalLinearStepper() {
                   </button>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>
       {activeStep === steps.length && (
-        <div className='p-4 bg-[#121212] mt-4 flex gap-4 flex-col justify-center items-center rounded-sm'>
+        <div className='p-4 bg-[#121212] mt-4 flex gap-2 flex-col justify-center items-start rounded-sm'>
           <p className='text-white'>All steps completed - you are finished</p>
           <button
             onClick={handleReset}
