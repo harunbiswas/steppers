@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import ButtonNumber from './mobilestepper/ButtonNumber'
+import TitleBar from './mobilestepper/TitleBar'
 
 const steps = [
   {
@@ -35,31 +37,17 @@ export default function MobileStepper() {
 
   return (
     <div className='max-w-md flex flex-col m-auto '>
-      <div className='flex items-center h-12 pl-2 bg-black rounded '>
-        <p className='text-md text-white'>{steps[activeStep].label}</p>
-      </div>
+      <TitleBar label={steps[activeStep]?.label} />
       <div className='h-64 max-w-md w-full p-4'>
         <p className='text-white'>{steps[activeStep].description}</p>
       </div>
-      <div className='flex justify-between items-center bg-black rounded p-2'>
-        <button
-          className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium disabled:text-[#ffffff4d] disabled:hover:bg-transparent'
-          onClick={handleBack}
-          disabled={activeStep === 0}
-        >
-          Back
-        </button>
-        <span className='text-white'>
-          {activeStep + 1} / {steps.length}
-        </span>
-        <button
-          className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium disabled:text-[#ffffff4d] disabled:hover:bg-transparent'
-          onClick={handleNext}
-          disabled={activeStep === maxSteps - 1}
-        >
-          Next
-        </button>
-      </div>
+      <ButtonNumber
+        handleBack={handleBack}
+        activeStep={activeStep}
+        steps={steps}
+        handleNext={handleNext}
+        maxSteps={maxSteps}
+      />
     </div>
   )
 }

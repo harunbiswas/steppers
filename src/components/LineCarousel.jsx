@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
-import SwipeableViews from 'react-swipeable-views'
-import { autoPlay } from 'react-swipeable-views-utils'
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
+import ButtonBar from './mobilestepper/ButtonBar'
+import Carousel from './mobilestepper/Carousel'
+import TitleBar from './mobilestepper/TitleBar'
 
 const images = [
   {
@@ -46,54 +44,22 @@ function LineSwipeableTextMobileStepper() {
 
   return (
     <div className='max-w-md flex flex-col grow m-auto'>
-      <div className='flex items-center h-12 pl-2 bg-black'>
-        <p className='text-md text-white'>{images[activeStep].label}</p>
-      </div>
-      <AutoPlaySwipeableViews
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <img
-                className='block h-64 max-w-md w-full overflow-hidden'
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null}
-          </div>
-        ))}
-      </AutoPlaySwipeableViews>
-      <div className='flex justify-between items-center bg-black px-3 py-2'>
-        <button
-          className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium disabled:text-[#ffffff4d] disabled:hover:bg-transparent flex gap-2 items-center'
-          onClick={handleBack}
-          disabled={activeStep === 0}
-        >
-          <FaAngleLeft />
-          Back
-        </button>
-        <div className='intigator flex w-full md:mx-10 rounded-md overflow-hidden bg-[#ffffff4d]'>
-          {images.map((item, i) => (
-            <span
-              key={i}
-              className={`h-2 w-full bg-[#90CAF9] ${
-                (activeStep >= i && ' scale-x-1') || 'scale-x-0'
-              } block transition-all origin-left`}
-            ></span>
-          ))}
-        </div>
-        <button
-          className='px-4 py-2 hover:bg-[#90CAF914] text-[#90CAF9] rounded uppercase text-sm font-medium disabled:text-[#ffffff4d] disabled:hover:bg-transparent flex gap-2 items-center'
-          onClick={handleNext}
-          disabled={activeStep === maxSteps - 1}
-        >
-          Next
-          <FaAngleRight />
-        </button>
-      </div>
+      <TitleBar label={images[activeStep].label} />
+      <Carousel
+        activeStep={activeStep}
+        handleStepChange={handleStepChange}
+        images={images}
+        rtl={true}
+        interval={5000}
+        duration='.2s'
+      />
+      <ButtonBar
+        handleBack={handleBack}
+        activeStep={activeStep}
+        images={images}
+        handleNext={handleNext}
+        maxSteps={maxSteps}
+      />
     </div>
   )
 }
