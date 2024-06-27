@@ -2,7 +2,7 @@ import { FaCheck } from 'react-icons/fa6'
 
 export default function StepLabel({ step = {}, index, steps, activeStep }) {
   return (
-    <div className='flex items-start transition-all dur '>
+    <div className='flex items-start transition-all'>
       <div className='w-6 h-6 flex items-center justify-center rounded-full bg-[#90caf9] text-black mt-1 text-sm'>
         {(index < activeStep && <FaCheck />) || index + 1}
       </div>

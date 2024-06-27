@@ -10,7 +10,7 @@ export default function Step({
   handleBack,
 }) {
   return (
-    <div key={index} className=' pb-8 relative bg-black '>
+    <div key={index} className=' pb-12 relative bg-black '>
       {index < steps.length - 1 && (
         <div className='absolute w-px h-custom-calc bg-white left-3 top-9'></div>
       )}
