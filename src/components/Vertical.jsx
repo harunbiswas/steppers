@@ -45,8 +45,8 @@ export default function VerticalLinearStepper() {
           <Step
             key={index}
             index={index}
-            step={step}
             steps={steps}
+            step={step}
             activeStep={activeStep}
             handleNext={handleNext}
             handleBack={handleBack}
