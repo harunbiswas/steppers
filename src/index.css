@@ -4,7 +4,7 @@
 
 .accordion-content {
   transition: margin-bottom 500ms ease-in-out 300ms;
-  margin-bottom: -300px;
+  margin-bottom: -100%;
 }
 
 .accordion-content-auto {
