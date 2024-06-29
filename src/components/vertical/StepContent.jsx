@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function StepContent({
   activeStep = 0,
@@ -11,11 +11,17 @@ export default function StepContent({
 }) {
   const ref = useRef(null)
 
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    setHeight(ref.current?.offsetHeight + 16)
+  }, [ref])
+
   return (
     <div
       className={` overflow-hidden transition-all ease-in-out box-border ml-12 `}
       style={{
-        height: activeStep === index ? ref.current?.offsetHeight + 16 : 0,
+        height: activeStep === index ? height : 0,
       }}
     >
       <div className='' ref={ref}>
