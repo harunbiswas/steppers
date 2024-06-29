@@ -2,19 +2,20 @@ import PropTypes from 'prop-types'
 import { useRef } from 'react'
 
 export default function StepContent({
-  activeStep,
-  index,
+  activeStep = 0,
+  index = 0,
   step,
   handleNext,
   handleBack,
   steps = [],
 }) {
   const ref = useRef(null)
+
   return (
     <div
       className={` overflow-hidden transition-all ease-in-out box-border ml-12 `}
       style={{
-        height: activeStep === index ? ref.current?.offsetHeight + 16 || 0 : 0,
+        height: activeStep === index ? ref.current?.offsetHeight + 16 : 0,
       }}
     >
       <div className='' ref={ref}>
