@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useRef } from 'react'
 
 export default function StepContent({
   activeStep,
@@ -8,15 +9,17 @@ export default function StepContent({
   handleBack,
   steps = [],
 }) {
+  const ref = useRef(null)
   return (
-    <div className={` overflow-hidden`}>
-      <div
-        className={`ml-12 mt-2 min-h-24 ${
-          activeStep === index ? 'accordion-content-auto' : 'accordion-content'
-        }`}
-      >
-        <p className='text-white'>{step.description}</p>
-        <div className='mt-4'>
+    <div
+      className={` overflow-hidden transition-all ease-in-out box-border ml-12 `}
+      style={{
+        height: activeStep === index ? ref.current?.offsetHeight + 16 || 0 : 0,
+      }}
+    >
+      <div className='' ref={ref}>
+        <p className='text-white mt-4'>{step.description}</p>
+        <div className=' mt-4'>
           <button
             onClick={handleNext}
             className='px-4 py-2 bg-blue-500 text-white rounded mr-2'

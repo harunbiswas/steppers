@@ -7,12 +7,20 @@ const steps = [
     label: 'Select campaign settings',
     description: `For each ad campaign that you create, you can control how much
               you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
               and geographical locations you want your ads to show on, and more.`,
   },
   {
     label: 'Create an ad group',
     description:
-      'An ad group contains one or more ads which target a shared set of keywords.',
+      'An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.An ad group contains one or more ads which target a shared set of keywords.',
   },
   {
     label: 'Create an ad',
